@@ -1,10 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import images from "../../images.json";
 import styled from "@emotion/styled";
 import GalleryItem from "./components/GalleryItem";
 import GalleryModal from "./components/GalleryModal";
-import { useTheme } from "../../theme/ThemeProvider";
-import { SerializedStyles } from "@emotion/css";
 import Fuse from "fuse.js";
 import { useDebounce } from "use-debounce";
 import GalleryHeader from "./components/GalleryHeader";
@@ -23,10 +21,14 @@ const Grid = styled.div`
   grid-auto-rows: 30vh;
   grid-gap: 0.5em;
   padding: 0 1em;
+
+  @media (max-width: 50em) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-auto-rows: 70vh;
+  }
 `;
 
 const Gallery = () => {
-  const modalRef = useRef<HTMLDivElement>();
   const [page, setPage] = useState(1);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -115,8 +117,6 @@ const Gallery = () => {
       </Grid>
       {modalIsVisible ? (
         <GalleryModal
-          // @ts-ignore
-          ref={modalRef}
           selectedItem={selectedItem}
           selectedMetaItems={selectedMetaItems}
           onClose={() => {

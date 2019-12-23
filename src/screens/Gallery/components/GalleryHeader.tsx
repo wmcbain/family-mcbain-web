@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { ReactComponent as McBainCrestIcon } from "../../../assets/icons/mcbain-crest.svg";
 import { SerializedStyles } from "@emotion/css";
 import { useTheme } from "../../../theme/ThemeProvider";
+import useMedia from "use-media";
 
 const Header = styled.div`
   align-items: center;
@@ -54,6 +55,8 @@ interface Props {
 
 const GalleryHeader = (props: Props) => {
   const { isSearching, setIsSearching, searchTerm, setSearchTerm } = props;
+  const isSmall = useMedia({ maxWidth: "50em" }, true);
+  const iconSize = isSmall ? 60 : 120;
   const {
     colors: {
       elements: { background, headline },
@@ -65,7 +68,7 @@ const GalleryHeader = (props: Props) => {
     <Header>
       <HeaderBanner>
         <HeaderCopy>FAMILY</HeaderCopy>
-        <McBainCrestIcon fill={headline} width={120} height={120} />
+        <McBainCrestIcon fill={headline} width={iconSize} height={iconSize} />
         <HeaderCopy>McBAIN</HeaderCopy>
       </HeaderBanner>
       <SearchInput
