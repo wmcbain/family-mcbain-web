@@ -36,7 +36,8 @@ const ModalImage = styled.img`
   object-fit: contain;
 
   @media (max-width: 50em) {
-    height: 70vh;
+    height: auto;
+    width: 80vw;
   }
 `;
 

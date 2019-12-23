@@ -74,6 +74,7 @@ const GalleryHeader = (props: Props) => {
         <HeaderCopy>McBAIN</HeaderCopy>
       </HeaderBanner>
       <SearchInput
+        alt="Search photos with keywords"
         background={background}
         color={headline}
         font={h4}
