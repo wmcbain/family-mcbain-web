@@ -50,8 +50,9 @@ const Container = styled.div`
   transition: all 150ms ease-in;
 
   &:hover {
-    box-shadow: 0px 6px 15px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 15px 15px rgba(0, 0, 0, 0.4);
     transform: scale(1.05);
+    z-index: 2;
   }
 
   &:hover ${Keywords} {

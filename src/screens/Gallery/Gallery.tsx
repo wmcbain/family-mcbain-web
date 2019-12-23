@@ -33,7 +33,6 @@ const HeaderBanner = styled.div`
 
 const HeaderCopy = styled.h1`
   padding: 1em 0.4em;
-  text-transform: uppercase;
 `;
 
 const Grid = styled.div`
@@ -60,6 +59,8 @@ const MetaContainer = styled.div<{ background: string }>`
 const MetaHeader = styled.h4<{ color: string; font: SerializedStyles }>`
   ${({ font }) => font};
   color: ${({ color }) => color};
+  font-size: 1.6em;
+  margin-bottom: 1em;
   text-transform: uppercase;
 `;
 
@@ -111,7 +112,7 @@ const SearchInput = styled.input<{
 const Gallery = () => {
   const modalRef = useRef<HTMLDivElement>();
   const [page, setPage] = useState(1);
-  const [modalIsVisible, setModalIsVisble] = useState(false);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [selectedMetaItems, setSelectedMetaItems] = useState<string[] | null>(
     null
@@ -152,7 +153,7 @@ const Gallery = () => {
   });
 
   useEffect(() => {
-    if (selectedItem) setModalIsVisble(true);
+    if (selectedItem) setModalIsVisible(true);
   }, [selectedItem]);
 
   useEffect(() => {
@@ -181,15 +182,15 @@ const Gallery = () => {
     search().then(nextItems => {
       setDisplayedItems(nextItems);
     });
-  }, [searchValue, page]);
+  }, [searchValue, page, isSearching]);
 
   return (
     <div>
       <Header>
         <HeaderBanner>
-          <HeaderCopy>Family</HeaderCopy>
+          <HeaderCopy>FAMILY</HeaderCopy>
           <McBainCrestIcon fill="#ffffff" width={120} height={120} />
-          <HeaderCopy>McBain</HeaderCopy>
+          <HeaderCopy>McBAIN</HeaderCopy>
         </HeaderBanner>
         <SearchInput
           background={background}
@@ -222,7 +223,7 @@ const Gallery = () => {
           // @ts-ignore
           ref={modalRef}
           onClose={() => {
-            setModalIsVisble(false);
+            setModalIsVisible(false);
             setSelectedItem(null);
           }}
         >

@@ -10,6 +10,7 @@ const Container = styled.div`
   left: 0;
   right: 0;
   top: 0;
+  z-index: 3;
 `;
 
 const Overlay: ComponentType<{
@@ -24,7 +25,7 @@ const Overlay: ComponentType<{
 `;
 
 const ContentContainer = styled.div`
-  z-index: 2;
+  z-index: 4;
 `;
 
 interface Props {
