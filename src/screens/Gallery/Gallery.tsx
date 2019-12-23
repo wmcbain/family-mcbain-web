@@ -7,6 +7,7 @@ import { ReactComponent as McBainCrestIcon } from "../../assets/icons/mcbain-cre
 import { useTheme } from "../../theme/ThemeProvider";
 import { SerializedStyles } from "@emotion/css";
 import Fuse from "fuse.js";
+import { useDebounce } from "use-debounce";
 
 const { keys: items, meta: metaUntyped, metaLinks: metaLinksUntyped } = images;
 const metaLinks = (metaLinksUntyped as unknown) as Record<string, string[]>;
@@ -117,6 +118,7 @@ const Gallery = () => {
   );
   const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchValue] = useDebounce(searchTerm, 500);
   const [displayedItems, setDisplayedItems] = useState(
     items.slice(0, page * chunkSize)
   );
@@ -154,16 +156,17 @@ const Gallery = () => {
   }, [selectedItem]);
 
   useEffect(() => {
-    if (searchTerm.length === 0) {
+    if (!isSearching) return;
+    if (searchValue.length === 0) {
       setPage(1);
       setIsSearching(false);
       return;
     }
-    if (searchTerm.length < 3) return;
+    if (searchValue.length < 3) return;
     setPage(0);
     const search = () =>
       new Promise<string[]>(resolve => {
-        const hits = fuse.search(searchTerm);
+        const hits = fuse.search(searchValue);
         if (hits.length === 0) return;
         let nextItems: string[] = [];
         for (let i = 0; i < hits.length; i++) {
@@ -178,7 +181,7 @@ const Gallery = () => {
     search().then(nextItems => {
       setDisplayedItems(nextItems);
     });
-  }, [searchTerm, page]);
+  }, [searchValue, page]);
 
   return (
     <div>

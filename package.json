@@ -23,7 +23,8 @@
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
     "react-spring": "^8.0.27",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "use-debounce": "^3.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
