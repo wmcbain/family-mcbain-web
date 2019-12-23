@@ -81,8 +81,12 @@ const GalleryHeader = (props: Props) => {
         underline={secondary}
         value={searchTerm}
         onChange={e => {
+          const {
+            target: { value }
+          } = e;
           if (!isSearching) setIsSearching(true);
-          setSearchTerm(e.target.value);
+          if (value.length === 0 && isSearching) setIsSearching(false);
+          setSearchTerm(value);
         }}
         placeholder="Search by keyword here"
       />

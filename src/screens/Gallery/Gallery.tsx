@@ -64,6 +64,11 @@ const Gallery = () => {
       page * chunkSize + 1 >= itemsList.length
         ? itemsList.length
         : page * chunkSize;
+    console.log("--------");
+    console.log(itemsList);
+    console.log(itemsList.length);
+    console.log(page);
+    console.log(sliceEnd);
     setDisplayedItems(itemsList.slice(0, sliceEnd));
   }, [page, itemsList]);
 
@@ -79,12 +84,9 @@ const Gallery = () => {
   useEffect(() => {
     if (!isSearching) return;
     if (searchValue.length === 0) {
-      setPage(1);
-      setIsSearching(false);
       setItemsList(items);
       return;
     }
-    setPage(1);
     const hits = fuse.search(searchValue);
     if (hits.length === 0) return;
     let nextItems: string[] = [];
@@ -100,7 +102,10 @@ const Gallery = () => {
     <div>
       <GalleryHeader
         isSearching={isSearching}
-        setIsSearching={setIsSearching}
+        setIsSearching={val => {
+          if (isSearching !== val) setPage(1);
+          setIsSearching(val);
+        }}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
