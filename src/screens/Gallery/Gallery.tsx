@@ -25,49 +25,6 @@ const Grid = styled.div`
   padding: 0 1em;
 `;
 
-const ModalImage = styled.img`
-  height: 80vh;
-  width: auto;
-  object-fit: contain;
-`;
-
-const MetaContainer = styled.div<{ background: string }>`
-  background-color: ${({ background }) => background};
-  display: flex;
-  flex-direction: column;
-  padding: 2em 1.6em;
-`;
-
-const MetaHeader = styled.h4<{ color: string; font: SerializedStyles }>`
-  ${({ font }) => font};
-  color: ${({ color }) => color};
-  font-size: 1.6em;
-  margin-bottom: 1em;
-  text-transform: uppercase;
-`;
-
-const MetaItems = styled.div`
-  align-items: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-`;
-
-const MetaItem = styled.p<{
-  background: string;
-  color: string;
-  font: SerializedStyles;
-}>`
-  ${({ font }) => font};
-  background-color: ${({ background }) => background};
-  border-radius: 0.4em;
-  color: ${({ color }) => color};
-  font-size: 1.8em;
-  padding: 0.4em 0.8em;
-  margin-right: 0.6em;
-  margin-bottom: 0.6em;
-`;
-
 const Gallery = () => {
   const modalRef = useRef<HTMLDivElement>();
   const [page, setPage] = useState(1);
@@ -82,13 +39,6 @@ const Gallery = () => {
   const [displayedItems, setDisplayedItems] = useState(
     items.slice(0, page * chunkSize)
   );
-
-  const {
-    colors: {
-      elements: { background, headline, button, buttonText }
-    },
-    fonts: { button: buttonFont, caption }
-  } = useTheme();
 
   const handleScroll = () => {
     if (
@@ -166,31 +116,13 @@ const Gallery = () => {
         <GalleryModal
           // @ts-ignore
           ref={modalRef}
+          selectedItem={selectedItem}
+          selectedMetaItems={selectedMetaItems}
           onClose={() => {
             setModalIsVisible(false);
             setSelectedItem(null);
           }}
-        >
-          <ModalImage
-            src={`${process.env.PUBLIC_URL}/gallery/${selectedItem}`}
-          />
-          <MetaContainer background={background}>
-            <MetaHeader color={headline} font={caption}>
-              Keywords
-            </MetaHeader>
-            <MetaItems>
-              {selectedMetaItems?.map(meta => (
-                <MetaItem
-                  background={button}
-                  color={buttonText}
-                  font={buttonFont}
-                >
-                  {meta}
-                </MetaItem>
-              ))}
-            </MetaItems>
-          </MetaContainer>
-        </GalleryModal>
+        />
       ) : null}
     </div>
   );
