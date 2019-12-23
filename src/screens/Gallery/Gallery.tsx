@@ -3,11 +3,11 @@ import images from "../../images.json";
 import styled from "@emotion/styled";
 import GalleryItem from "./components/GalleryItem";
 import GalleryModal from "./components/GalleryModal";
-import { ReactComponent as McBainCrestIcon } from "../../assets/icons/mcbain-crest.svg";
 import { useTheme } from "../../theme/ThemeProvider";
 import { SerializedStyles } from "@emotion/css";
 import Fuse from "fuse.js";
 import { useDebounce } from "use-debounce";
+import GalleryHeader from "./components/GalleryHeader";
 
 const { keys: items, meta: metaUntyped, metaLinks: metaLinksUntyped } = images;
 const metaLinks = (metaLinksUntyped as unknown) as Record<string, string[]>;
@@ -16,24 +16,6 @@ const fuseObj = metaLinkKeys.map(key => ({ key }));
 const fuse = new Fuse(fuseObj, { keys: ["key"], threshold: 0.3 });
 const metaItems = (metaUntyped as unknown) as Record<string, string[]>;
 const chunkSize = 32;
-
-const Header = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-`;
-
-const HeaderBanner = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: center;
-`;
-
-const HeaderCopy = styled.h1`
-  padding: 1em 0.4em;
-`;
 
 const Grid = styled.div`
   display: grid;
@@ -86,29 +68,6 @@ const MetaItem = styled.p<{
   margin-bottom: 0.6em;
 `;
 
-const SearchInput = styled.input<{
-  color: string;
-  background: string;
-  font: SerializedStyles;
-  underline: string;
-}>`
-  ${({ font }) => font};
-  background: ${({ background }) => background};
-  border: none;
-  border-bottom: ${({ underline }) => underline};
-  color: ${({ color }) => color};
-  margin-left: -0.5em;
-  margin-top: -1em;
-  outline: none;
-  padding: 1em 0;
-  text-align: center;
-  width: 100%;
-
-  &:active {
-    outline: none;
-  }
-`;
-
 const Gallery = () => {
   const modalRef = useRef<HTMLDivElement>();
   const [page, setPage] = useState(1);
@@ -119,17 +78,16 @@ const Gallery = () => {
   );
   const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchValue] = useDebounce(searchTerm, 500);
+  const [searchValue] = useDebounce(searchTerm, 200);
   const [displayedItems, setDisplayedItems] = useState(
     items.slice(0, page * chunkSize)
   );
 
   const {
     colors: {
-      elements: { background, headline, button, buttonText },
-      illustration: { secondary }
+      elements: { background, headline, button, buttonText }
     },
-    fonts: { button: buttonFont, caption, h4 }
+    fonts: { button: buttonFont, caption }
   } = useTheme();
 
   const handleScroll = () => {
@@ -163,7 +121,6 @@ const Gallery = () => {
       setIsSearching(false);
       return;
     }
-    if (searchValue.length < 3) return;
     setPage(0);
     const search = () =>
       new Promise<string[]>(resolve => {
@@ -186,25 +143,12 @@ const Gallery = () => {
 
   return (
     <div>
-      <Header>
-        <HeaderBanner>
-          <HeaderCopy>FAMILY</HeaderCopy>
-          <McBainCrestIcon fill="#ffffff" width={120} height={120} />
-          <HeaderCopy>McBAIN</HeaderCopy>
-        </HeaderBanner>
-        <SearchInput
-          background={background}
-          color={headline}
-          font={h4}
-          underline={secondary}
-          value={searchTerm}
-          onChange={e => {
-            if (!isSearching) setIsSearching(true);
-            setSearchTerm(e.target.value);
-          }}
-          placeholder="Type your keyword search here"
-        />
-      </Header>
+      <GalleryHeader
+        isSearching={isSearching}
+        setIsSearching={setIsSearching}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
       <Grid>
         {displayedItems.map(item => (
           <GalleryItem
