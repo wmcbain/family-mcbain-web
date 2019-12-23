@@ -13,7 +13,7 @@ const metaLinkKeys = Object.keys(metaLinks);
 const fuseObj = metaLinkKeys.map(key => ({ key }));
 const fuse = new Fuse(fuseObj, { keys: ["key"], threshold: 0.3 });
 const metaItems = (metaUntyped as unknown) as Record<string, string[]>;
-const chunkSize = 32;
+const chunkSize = 12;
 
 const Grid = styled.div`
   display: grid;
@@ -38,8 +38,9 @@ const Gallery = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchValue] = useDebounce(searchTerm, 200);
+  const [itemsList, setItemsList] = useState(items);
   const [displayedItems, setDisplayedItems] = useState(
-    items.slice(0, page * chunkSize)
+    itemsList.slice(0, page * chunkSize)
   );
 
   const handleScroll = () => {
@@ -52,10 +53,12 @@ const Gallery = () => {
   };
 
   useEffect(() => {
-    if (isSearching) return;
-    if (page * chunkSize + 1 >= items.length) return;
-    setDisplayedItems(items.slice(0, page * chunkSize));
-  }, [page, isSearching]);
+    let sliceEnd =
+      page * chunkSize + 1 >= itemsList.length
+        ? itemsList.length
+        : page * chunkSize;
+    setDisplayedItems(itemsList.slice(0, sliceEnd));
+  }, [page, itemsList]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -71,27 +74,19 @@ const Gallery = () => {
     if (searchValue.length === 0) {
       setPage(1);
       setIsSearching(false);
+      setItemsList(items);
       return;
     }
-    setPage(0);
-    const search = () =>
-      new Promise<string[]>(resolve => {
-        const hits = fuse.search(searchValue);
-        if (hits.length === 0) return;
-        let nextItems: string[] = [];
-        for (let i = 0; i < hits.length; i++) {
-          nextItems = nextItems.concat(metaLinks[hits[i].key]);
-        }
-        resolve(
-          nextItems.filter(
-            (value, index, self) => self.indexOf(value) === index
-          )
-        );
-      });
-    search().then(nextItems => {
-      setDisplayedItems(nextItems);
-      setIsSearching(false);
-    });
+    setPage(1);
+    const hits = fuse.search(searchValue);
+    if (hits.length === 0) return;
+    let nextItems: string[] = [];
+    for (let i = 0; i < hits.length; i++) {
+      nextItems = nextItems.concat(metaLinks[hits[i].key]);
+    }
+    setItemsList(
+      nextItems.filter((value, index, self) => self.indexOf(value) === index)
+    );
   }, [searchValue, page, isSearching]);
 
   return (
