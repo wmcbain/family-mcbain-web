@@ -55,8 +55,10 @@ interface Props {
 
 const GalleryHeader = (props: Props) => {
   const { isSearching, setIsSearching, searchTerm, setSearchTerm } = props;
+  const isMedium = useMedia({ maxWidth: "70em" }, false);
   const isSmall = useMedia({ maxWidth: "50em" }, true);
-  const iconSize = isSmall ? 60 : 120;
+  let iconSize = isSmall ? 40 : 120;
+  iconSize = isMedium ? 60 : iconSize;
   const {
     colors: {
       elements: { background, headline },
