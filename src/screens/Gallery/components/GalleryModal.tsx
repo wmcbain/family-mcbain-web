@@ -34,6 +34,10 @@ const ModalImage = styled.img`
   height: 80vh;
   width: auto;
   object-fit: contain;
+
+  @media (max-width: 50em) {
+    height: 70vh;
+  }
 `;
 
 const MetaContainer = styled.div<{ background: string }>`
@@ -101,6 +105,7 @@ const GalleryModal: FC<Props> = props => {
           <MetaItems>
             {selectedMetaItems?.map(meta => (
               <MetaItem
+                key={`modal-meta-${meta}`}
                 background={button}
                 color={buttonText}
                 font={buttonFont}

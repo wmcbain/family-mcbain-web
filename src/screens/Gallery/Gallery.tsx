@@ -18,13 +18,20 @@ const chunkSize = 12;
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 30vh;
+  grid-auto-rows: 40vh;
   grid-gap: 0.5em;
   padding: 0 1em;
+
+  @media (max-width: 70em) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 50vh;
+    padding: 0 2em;
+  }
 
   @media (max-width: 50em) {
     grid-template-columns: repeat(1, 1fr);
     grid-auto-rows: 70vh;
+    grid-gap: 1em;
   }
 `;
 
