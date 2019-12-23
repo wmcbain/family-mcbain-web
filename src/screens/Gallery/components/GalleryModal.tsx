@@ -2,6 +2,8 @@ import React, { FC, ComponentType } from "react";
 import styled from "@emotion/styled";
 import { SerializedStyles } from "@emotion/css";
 import { useTheme } from "../../../theme/ThemeProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   align-items: center;
@@ -27,6 +29,7 @@ const Overlay: ComponentType<{
 `;
 
 const ContentContainer = styled.div`
+  position: relative;
   z-index: 4;
 `;
 
@@ -78,6 +81,32 @@ const MetaItem = styled.p<{
   margin-bottom: 0.6em;
 `;
 
+const CloseButton = styled.button`
+  align-items: centter;
+  box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 1.5em;
+  cursor: pointer;
+  position: absolute;
+  height: 3em;
+  justify-content: center;
+  display: flex;
+  right: 1em;
+  top: 1em;
+  width: 3em;
+  animation: all 100ms ease;
+
+  &:hover,
+  &:active {
+    border: none;
+    outline: none;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
 interface Props {
   onClose: () => void;
   selectedItem: string | null;
@@ -98,6 +127,21 @@ const GalleryModal: FC<Props> = props => {
     <Container>
       <Overlay onClick={onClose} />
       <ContentContainer>
+        <CloseButton
+          onClick={e => {
+            e.preventDefault();
+            onClose();
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faTimesCircle}
+            style={{
+              color: headline,
+              height: "1.5em",
+              width: "1.5em"
+            }}
+          />
+        </CloseButton>
         <ModalImage src={`${process.env.PUBLIC_URL}/gallery/${selectedItem}`} />
         <MetaContainer background={background}>
           <MetaHeader color={headline} font={caption}>
