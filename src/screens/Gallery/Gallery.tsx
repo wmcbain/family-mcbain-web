@@ -88,6 +88,7 @@ const Gallery = () => {
       });
     search().then(nextItems => {
       setDisplayedItems(nextItems);
+      setIsSearching(false);
     });
   }, [searchValue, page, isSearching]);
 
