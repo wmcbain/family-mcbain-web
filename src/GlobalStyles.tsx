@@ -39,8 +39,22 @@ const GlobalStyles = () => {
     }
     button {
       ${buttonFont};
+      border-radius: 0.4em;
+      border: none;
       background: ${button};
+      padding: 0.4em 0.8em;
       color: ${buttonText};
+      transition: opacity 100ms ease;
+
+      &:hover,
+      &:active {
+        border: none;
+        outline: none;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
     }
   `;
 

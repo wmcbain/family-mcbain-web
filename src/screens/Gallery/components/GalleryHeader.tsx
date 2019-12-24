@@ -32,18 +32,22 @@ const SearchInput = styled.input<{
   ${({ font }) => font};
   background: ${({ background }) => background};
   border: none;
-  border-bottom: ${({ underline }) => underline};
+  border-bottom: 2px ${({ underline }) => underline} solid;
   color: ${({ color }) => color};
-  margin-left: -0.5em;
-  margin-top: -1em;
   outline: none;
-  padding: 1em 0;
-  text-align: center;
-  width: 100%;
+  padding: 1em 1em 0.5em 1em;
 
   &:active {
     outline: none;
   }
+`;
+
+const ContextBar = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5em;
+  width: calc(100% - 4em);
 `;
 
 interface Props {
@@ -51,10 +55,17 @@ interface Props {
   setIsSearching: (isSearching: boolean) => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  onShuffle: () => void;
 }
 
 const GalleryHeader = (props: Props) => {
-  const { isSearching, setIsSearching, searchTerm, setSearchTerm } = props;
+  const {
+    isSearching,
+    setIsSearching,
+    searchTerm,
+    setSearchTerm,
+    onShuffle
+  } = props;
   const isMedium = useMedia({ maxWidth: "70em" }, false);
   const isSmall = useMedia({ maxWidth: "50em" }, true);
   let iconSize = isSmall ? 40 : 120;
@@ -73,23 +84,33 @@ const GalleryHeader = (props: Props) => {
         <McBainCrestIcon fill={headline} width={iconSize} height={iconSize} />
         <HeaderCopy>McBAIN</HeaderCopy>
       </HeaderBanner>
-      <SearchInput
-        alt="Search photos with keywords"
-        background={background}
-        color={headline}
-        font={h4}
-        underline={secondary}
-        value={searchTerm}
-        onChange={e => {
-          const {
-            target: { value }
-          } = e;
-          if (!isSearching) setIsSearching(true);
-          if (value.length === 0 && isSearching) setIsSearching(false);
-          setSearchTerm(value);
-        }}
-        placeholder="Search by keyword here"
-      />
+      <ContextBar>
+        <SearchInput
+          alt="Search photos with keywords"
+          background={background}
+          color={headline}
+          font={h4}
+          underline={secondary}
+          value={searchTerm}
+          onChange={e => {
+            const {
+              target: { value }
+            } = e;
+            if (!isSearching) setIsSearching(true);
+            if (value.length === 0 && isSearching) setIsSearching(false);
+            setSearchTerm(value);
+          }}
+          placeholder="Search by keyword here"
+        />
+        <button
+          onClick={e => {
+            e.preventDefault();
+            onShuffle();
+          }}
+        >
+          Shuffle
+        </button>
+      </ContextBar>
     </Header>
   );
 };

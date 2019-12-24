@@ -30,10 +30,23 @@ const Grid = styled.div`
 
   @media (max-width: 50em) {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 60vh;
+    grid-auto-rows: 30vh;
     grid-gap: 1em;
   }
 `;
+
+const shuffle = (items: string[]) => {
+  const copied = Array.from(items);
+  let index = copied.length;
+  while (0 !== index) {
+    const randomIndex = Math.floor(Math.random() * index);
+    index = index - 1;
+    const current = copied[index];
+    copied[index] = copied[randomIndex];
+    copied[randomIndex] = current;
+  }
+  return copied;
+};
 
 const Gallery = () => {
   const [page, setPage] = useState(1);
@@ -106,6 +119,10 @@ const Gallery = () => {
         }}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        onShuffle={() => {
+          setItemsList(shuffle(itemsList));
+          setPage(1);
+        }}
       />
       <Grid>
         {displayedItems.map(item => (
