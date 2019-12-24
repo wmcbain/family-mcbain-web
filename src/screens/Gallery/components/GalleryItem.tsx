@@ -52,7 +52,8 @@ const Container = styled.div`
   }
 `;
 
-const Image = styled(Img)`
+const Image = styled(Img)<{ background: string }>`
+  background-color: ${({ background }) => background};
   border-radius: 0.5em;
   box-shadow: 0 0 0 #000000;
   cursor: pointer;
@@ -74,7 +75,8 @@ const GalleryItem = (props: Props) => {
   const {
     fonts: { caption },
     colors: {
-      elements: { headline }
+      elements: { headline },
+      illustration: { secondary }
     }
   } = useTheme();
 
@@ -82,6 +84,7 @@ const GalleryItem = (props: Props) => {
     <Container onClick={() => onClick(item)}>
       <Image
         alt={`Gallery item with the name ${item}`}
+        background={secondary}
         key={`gallery-item-${item}`}
         src={`${process.env.PUBLIC_URL}/gallery/${item}`}
         loader={<ImagePlaceholder />}

@@ -36,7 +36,8 @@ const ContentContainer = styled.div`
   z-index: 4;
 `;
 
-const ModalImage = styled(Img)`
+const ModalImage = styled(Img)<{ background: string }>`
+  background-color: ${({ background }) => background};
   height: 80vh;
   width: auto;
   object-fit: contain;
@@ -107,7 +108,8 @@ const GalleryModal: FC<Props> = props => {
 
   const {
     colors: {
-      elements: { background, headline }
+      elements: { background, headline },
+      illustration: { secondary }
     },
     fonts: { button: caption }
   } = useTheme();
@@ -133,6 +135,7 @@ const GalleryModal: FC<Props> = props => {
         </CloseButton>
         <ModalImage
           src={`${process.env.PUBLIC_URL}/gallery/${selectedItem}`}
+          background={secondary}
           loader={<ImagePlaceholder />}
         />
         <MetaContainer background={background}>
