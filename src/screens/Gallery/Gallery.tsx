@@ -58,7 +58,7 @@ const Gallery = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchValue] = useDebounce(searchTerm, 200, { leading: true });
-  const [itemsList, setItemsList] = useState(items);
+  const [itemsList, setItemsList] = useState(shuffle(items));
   const [displayedItems, setDisplayedItems] = useState(
     itemsList.slice(0, page * chunkSize)
   );

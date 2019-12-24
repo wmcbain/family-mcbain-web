@@ -35,7 +35,7 @@ const SearchInput = styled.input<{
   border-bottom: 2px ${({ underline }) => underline} solid;
   color: ${({ color }) => color};
   outline: none;
-  padding: 1em 1em 0.5em 1em;
+  padding: 1em 1em 0.25em 0;
 
   &:active {
     outline: none;
@@ -100,16 +100,18 @@ const GalleryHeader = (props: Props) => {
             if (value.length === 0 && isSearching) setIsSearching(false);
             setSearchTerm(value);
           }}
-          placeholder="Search by keyword here"
+          placeholder="Search by keyword"
         />
-        <button
-          onClick={e => {
-            e.preventDefault();
-            onShuffle();
-          }}
-        >
-          Shuffle
-        </button>
+        <div>
+          <button
+            onClick={e => {
+              e.preventDefault();
+              onShuffle();
+            }}
+          >
+            Shuffle
+          </button>
+        </div>
       </ContextBar>
     </Header>
   );

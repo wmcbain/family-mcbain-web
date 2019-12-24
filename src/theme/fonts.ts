@@ -75,6 +75,9 @@ const fonts: Fonts = {
   body2: css`
     ${body};
     font-size: 1.4em;
+    @media (max-width: 70em) {
+      font-size: 1.2em;
+    }
     @media (max-width: 50em) {
       font-size: 1em;
     }
@@ -83,8 +86,11 @@ const fonts: Fonts = {
     ${body};
     font-size: 1.6em;
     text-transform: uppercase;
-    @media (max-width: 50em) {
+    @media (max-width: 70em) {
       font-size: 1.4em;
+    }
+    @media (max-width: 50em) {
+      font-size: 1.2em;
     }
   `,
   caption: css`
