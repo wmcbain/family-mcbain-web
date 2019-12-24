@@ -136,7 +136,7 @@ const GalleryModal: FC<Props> = props => {
         <ModalImage
           src={`${process.env.PUBLIC_URL}/gallery/${selectedItem}`}
           background={secondary}
-          loader={<ImagePlaceholder />}
+          loader={<ImagePlaceholder height="80vh" />}
         />
         <MetaContainer background={background}>
           <MetaHeader color={headline} font={caption}>

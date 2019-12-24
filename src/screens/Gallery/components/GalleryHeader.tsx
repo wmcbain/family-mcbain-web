@@ -44,13 +44,19 @@ const SearchInput = styled.input<{
     border-bottom: 2px ${({ underlineActive }) => underlineActive} solid;
     outline: none;
   }
+
+  @media (max-width: 70em) {
+    font-size: 16px;
+    width: 160px;
+  }
 `;
 
 const ContextBar = styled.div`
-  align-items: center;
+  align-items: flex-end;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1.5em;
+  margin-bottom: 2em;
+  margin-top: -1em;
   width: calc(100% - 4em);
 `;
 
