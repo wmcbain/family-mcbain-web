@@ -41,14 +41,16 @@ const Container = styled.div`
   transform-origin: center;
   transition: all 150ms ease-in;
 
-  &:hover {
-    box-shadow: 0px 0px 15px 15px rgba(0, 0, 0, 0.4);
-    transform: scale(1.05);
-    z-index: 2;
-  }
+  @media (min-width: 50em) {
+    &:hover {
+      box-shadow: 0px 0px 15px 15px rgba(0, 0, 0, 0.4);
+      transform: scale(1.05);
+      z-index: 2;
+    }
 
-  &:hover ${Keywords} {
-    opacity: 1;
+    &:hover ${Keywords} {
+      opacity: 1;
+    }
   }
 `;
 
