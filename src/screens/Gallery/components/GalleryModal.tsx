@@ -172,7 +172,7 @@ const GalleryModal: FC<Props> = props => {
                 ".jpg",
                 "@3x.jpg"
               )}`}
-              download
+              download={selectedItem}
             >
               <FontAwesomeIcon
                 icon={faSave}
