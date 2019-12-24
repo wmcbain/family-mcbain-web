@@ -4,6 +4,9 @@ import { SerializedStyles } from "@emotion/css";
 import { useTheme } from "../../../theme/ThemeProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import KeywordButton from "./KeywordButton";
+import Img from "react-image";
+import ImagePlaceholder from "./ImagePlaceholder";
 
 const Container = styled.div`
   align-items: center;
@@ -33,7 +36,7 @@ const ContentContainer = styled.div`
   z-index: 4;
 `;
 
-const ModalImage = styled.img`
+const ModalImage = styled(Img)`
   height: 80vh;
   width: auto;
   object-fit: contain;
@@ -66,23 +69,8 @@ const MetaItems = styled.div`
   flex: 1;
 `;
 
-const MetaItem = styled.p<{
-  background: string;
-  color: string;
-  font: SerializedStyles;
-}>`
-  ${({ font }) => font};
-  background-color: ${({ background }) => background};
-  border-radius: 0.4em;
-  color: ${({ color }) => color};
-  font-size: 1.8em;
-  padding: 0.4em 0.8em;
-  margin-right: 0.6em;
-  margin-bottom: 0.6em;
-`;
-
 const CloseButton = styled.button`
-  align-items: centter;
+  align-items: center;
   box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);
   border: none;
   border-radius: 1.5em;
@@ -108,19 +96,20 @@ const CloseButton = styled.button`
 `;
 
 interface Props {
-  onClose: () => void;
   selectedItem: string | null;
   selectedMetaItems: string[] | null;
+  onClose: () => void;
+  onMetaClick: (item: string) => void;
 }
 
 const GalleryModal: FC<Props> = props => {
-  const { onClose, selectedItem, selectedMetaItems } = props;
+  const { onClose, selectedItem, selectedMetaItems, onMetaClick } = props;
 
   const {
     colors: {
-      elements: { background, headline, button, buttonText }
+      elements: { background, headline }
     },
-    fonts: { button: buttonFont, caption }
+    fonts: { button: caption }
   } = useTheme();
 
   return (
@@ -142,21 +131,21 @@ const GalleryModal: FC<Props> = props => {
             }}
           />
         </CloseButton>
-        <ModalImage src={`${process.env.PUBLIC_URL}/gallery/${selectedItem}`} />
+        <ModalImage
+          src={`${process.env.PUBLIC_URL}/gallery/${selectedItem}`}
+          loader={<ImagePlaceholder />}
+        />
         <MetaContainer background={background}>
           <MetaHeader color={headline} font={caption}>
             Keywords
           </MetaHeader>
           <MetaItems>
             {selectedMetaItems?.map(meta => (
-              <MetaItem
-                key={`modal-meta-${meta}`}
-                background={button}
-                color={buttonText}
-                font={buttonFont}
-              >
-                {meta}
-              </MetaItem>
+              <KeywordButton
+                key={`gallery-modal-${selectedItem}-keyword-button-${meta}`}
+                item={meta}
+                onClick={item => onMetaClick(item)}
+              />
             ))}
           </MetaItems>
         </MetaContainer>

@@ -44,7 +44,7 @@ const Gallery = () => {
   );
   const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchValue] = useDebounce(searchTerm, 200);
+  const [searchValue] = useDebounce(searchTerm, 200, { leading: true });
   const [itemsList, setItemsList] = useState(items);
   const [displayedItems, setDisplayedItems] = useState(
     itemsList.slice(0, page * chunkSize)
@@ -64,11 +64,6 @@ const Gallery = () => {
       page * chunkSize + 1 >= itemsList.length
         ? itemsList.length
         : page * chunkSize;
-    console.log("--------");
-    console.log(itemsList);
-    console.log(itemsList.length);
-    console.log(page);
-    console.log(sliceEnd);
     setDisplayedItems(itemsList.slice(0, sliceEnd));
   }, [page, itemsList]);
 
@@ -103,8 +98,11 @@ const Gallery = () => {
       <GalleryHeader
         isSearching={isSearching}
         setIsSearching={val => {
-          if (isSearching !== val) setPage(1);
           setIsSearching(val);
+          if (isSearching !== val) {
+            setPage(1);
+            window.scrollTo(0, 0);
+          }
         }}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -119,6 +117,12 @@ const Gallery = () => {
               setSelectedItem(item);
               setSelectedMetaItems(meta);
             }}
+            onMetaClick={item => {
+              setSearchTerm(item);
+              setPage(1);
+              setIsSearching(true);
+              window.scrollTo(0, 0);
+            }}
           />
         ))}
       </Grid>
@@ -129,6 +133,13 @@ const Gallery = () => {
           onClose={() => {
             setModalIsVisible(false);
             setSelectedItem(null);
+          }}
+          onMetaClick={item => {
+            setSearchTerm(item);
+            setPage(1);
+            setIsSearching(true);
+            window.scrollTo(0, 0);
+            setModalIsVisible(false);
           }}
         />
       ) : null}

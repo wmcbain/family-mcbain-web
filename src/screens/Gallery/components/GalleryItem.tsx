@@ -3,6 +3,9 @@ import styled from "@emotion/styled/macro";
 import { SerializedStyles } from "@emotion/css";
 import images from "../../../images.json";
 import { useTheme } from "../../../theme/ThemeProvider";
+import KeywordButton from "./KeywordButton";
+import Img from "react-image";
+import ImagePlaceholder from "./ImagePlaceholder";
 
 const meta = (images.meta as unknown) as Record<string, string[]>;
 
@@ -33,17 +36,6 @@ const KeywordList = styled.div`
   margin: 0 1.6em 1.2em 1.6em;
 `;
 
-const Keyword = styled.p<{ background: string; color: string }>`
-  background: ${({ background }) => background};
-  border-radius: 0.4em;
-  color: ${({ color }) => color};
-  display: block;
-  flex-grow: 0;
-  padding: 0.4em 0.8em;
-  margin-right: 0.4em;
-  margin-bottom: 0.4em;
-`;
-
 const Container = styled.div`
   position: relative;
   transform-origin: center;
@@ -60,7 +52,7 @@ const Container = styled.div`
   }
 `;
 
-const Image = styled.img`
+const Image = styled(Img)`
   border-radius: 0.5em;
   box-shadow: 0 0 0 #000000;
   cursor: pointer;
@@ -73,15 +65,16 @@ const Image = styled.img`
 interface Props {
   item: string;
   onClick: (item: string) => void;
+  onMetaClick: (item: string) => void;
 }
 
 const GalleryItem = (props: Props) => {
-  const { item, onClick } = props;
+  const { item, onClick, onMetaClick } = props;
   const itemMeta = meta[item];
   const {
     fonts: { caption },
     colors: {
-      elements: { button, buttonText, headline }
+      elements: { headline }
     }
   } = useTheme();
 
@@ -91,6 +84,7 @@ const GalleryItem = (props: Props) => {
         alt={`Gallery item with the name ${item}`}
         key={`gallery-item-${item}`}
         src={`${process.env.PUBLIC_URL}/gallery/${item}`}
+        loader={<ImagePlaceholder />}
       />
       <Keywords>
         <KeywordHeader color={headline} font={caption}>
@@ -98,13 +92,11 @@ const GalleryItem = (props: Props) => {
         </KeywordHeader>
         <KeywordList>
           {itemMeta.map(meta => (
-            <Keyword
-              background={button}
-              color={buttonText}
-              key={`item-${item}-meta-${meta}`}
-            >
-              {meta}
-            </Keyword>
+            <KeywordButton
+              key={`gallery-${item}-keyword-button-${meta}`}
+              item={meta}
+              onClick={item => onMetaClick(item)}
+            />
           ))}
         </KeywordList>
       </Keywords>
