@@ -29,8 +29,8 @@ const Grid = styled.div`
   }
 
   @media (max-width: 50em) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-auto-rows: 70vh;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 60vh;
     grid-gap: 1em;
   }
 `;
