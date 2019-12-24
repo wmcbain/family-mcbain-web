@@ -28,6 +28,7 @@ const SearchInput = styled.input<{
   background: string;
   font: SerializedStyles;
   underline: string;
+  underlineActive: string;
 }>`
   ${({ font }) => font};
   background: ${({ background }) => background};
@@ -35,9 +36,12 @@ const SearchInput = styled.input<{
   border-bottom: 2px ${({ underline }) => underline} solid;
   color: ${({ color }) => color};
   outline: none;
-  padding: 1em 1em 0.25em 0;
+  padding: 1em 0 0.25em 0;
 
-  &:active {
+  &:active,
+  &:focus,
+  &:hover {
+    border-bottom: 2px ${({ underlineActive }) => underlineActive} solid;
     outline: none;
   }
 `;
@@ -73,7 +77,7 @@ const GalleryHeader = (props: Props) => {
   const {
     colors: {
       elements: { background, headline },
-      illustration: { secondary }
+      illustration: { secondary, main }
     },
     fonts: { h4 }
   } = useTheme();
@@ -91,6 +95,7 @@ const GalleryHeader = (props: Props) => {
           color={headline}
           font={h4}
           underline={secondary}
+          underlineActive={main}
           value={searchTerm}
           onChange={e => {
             const {

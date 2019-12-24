@@ -90,9 +90,8 @@ const Gallery = () => {
   }, [selectedItem]);
 
   useEffect(() => {
-    if (!isSearching) return;
     if (searchValue.length === 0) {
-      setItemsList(items);
+      setItemsList(shuffle(items));
       return;
     }
     const hits = fuse.search(searchValue);

@@ -47,7 +47,8 @@ const GlobalStyles = () => {
       transition: opacity 100ms ease;
 
       &:hover,
-      &:active {
+      &:active,
+      &:focus {
         border: none;
         outline: none;
       }
