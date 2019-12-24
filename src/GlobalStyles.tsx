@@ -42,6 +42,7 @@ const GlobalStyles = () => {
       border-radius: 0.4em;
       border: none;
       background: ${button};
+      cursor: pointer;
       padding: 0.4em 0.8em;
       color: ${buttonText};
       transition: opacity 100ms ease;
