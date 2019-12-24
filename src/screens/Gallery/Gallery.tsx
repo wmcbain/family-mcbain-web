@@ -13,7 +13,7 @@ const metaLinkKeys = Object.keys(metaLinks);
 const fuseObj = metaLinkKeys.map(key => ({ key }));
 const fuse = new Fuse(fuseObj, { keys: ["key"], threshold: 0.3 });
 const metaItems = (metaUntyped as unknown) as Record<string, string[]>;
-const chunkSize = 12;
+const chunkSize = 8;
 
 const Grid = styled.div`
   display: grid;
@@ -90,10 +90,7 @@ const Gallery = () => {
   }, [selectedItem]);
 
   useEffect(() => {
-    if (searchValue.length === 0) {
-      setItemsList(shuffle(items));
-      return;
-    }
+    if (!isSearching) return;
     const hits = fuse.search(searchValue);
     if (hits.length === 0) return;
     let nextItems: string[] = [];
@@ -117,7 +114,13 @@ const Gallery = () => {
           }
         }}
         searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
+        setSearchTerm={term => {
+          setSearchTerm(term);
+          if (term.length === 0) {
+            setItemsList(shuffle(items));
+            return;
+          }
+        }}
         onShuffle={() => {
           setItemsList(shuffle(itemsList));
           setPage(1);

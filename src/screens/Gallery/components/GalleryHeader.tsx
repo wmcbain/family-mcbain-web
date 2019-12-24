@@ -108,7 +108,7 @@ const GalleryHeader = (props: Props) => {
               target: { value }
             } = e;
             if (!isSearching) setIsSearching(true);
-            if (value.length === 0 && isSearching) setIsSearching(false);
+            if (value.length === 0) setIsSearching(false);
             setSearchTerm(value);
           }}
           placeholder="Search by keyword"
