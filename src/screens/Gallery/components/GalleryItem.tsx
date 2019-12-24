@@ -6,6 +6,7 @@ import { useTheme } from "../../../theme/ThemeProvider";
 import KeywordButton from "./KeywordButton";
 import Img from "react-image";
 import ImagePlaceholder from "./ImagePlaceholder";
+import useMedia from "use-media";
 
 const meta = (images.meta as unknown) as Record<string, string[]>;
 
@@ -74,6 +75,7 @@ interface Props {
 const GalleryItem = (props: Props) => {
   const { item, onClick, onMetaClick } = props;
   const itemMeta = meta[item];
+  const isSmall = useMedia({ maxWidth: "50em" });
   const {
     fonts: { caption },
     colors: {
@@ -91,20 +93,22 @@ const GalleryItem = (props: Props) => {
         src={`${process.env.PUBLIC_URL}/gallery/${item}`}
         loader={<ImagePlaceholder />}
       />
-      <Keywords>
-        <KeywordHeader color={headline} font={caption}>
-          Keywords
-        </KeywordHeader>
-        <KeywordList>
-          {itemMeta.map(meta => (
-            <KeywordButton
-              key={`gallery-${item}-keyword-button-${meta}`}
-              item={meta}
-              onClick={item => onMetaClick(item)}
-            />
-          ))}
-        </KeywordList>
-      </Keywords>
+      {!isSmall ? (
+        <Keywords>
+          <KeywordHeader color={headline} font={caption}>
+            Keywords
+          </KeywordHeader>
+          <KeywordList>
+            {itemMeta.map(meta => (
+              <KeywordButton
+                key={`gallery-${item}-keyword-button-${meta}`}
+                item={meta}
+                onClick={item => onMetaClick(item)}
+              />
+            ))}
+          </KeywordList>
+        </Keywords>
+      ) : null}
     </Container>
   );
 };
