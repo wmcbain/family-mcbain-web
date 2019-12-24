@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { SerializedStyles } from "@emotion/css";
 import { useTheme } from "../../../theme/ThemeProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTimesCircle, faSave } from "@fortawesome/free-solid-svg-icons";
 import KeywordButton from "./KeywordButton";
 import Img from "react-image";
 import ImagePlaceholder from "./ImagePlaceholder";
@@ -51,8 +51,21 @@ const ModalImage = styled(Img)<{ background: string }>`
 const MetaContainer = styled.div<{ background: string }>`
   background-color: ${({ background }) => background};
   display: flex;
-  flex-direction: column;
   padding: 2em 1.6em;
+  justify-content: space-between;
+`;
+
+const MetaContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Buttons = styled.div`
+  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  width: 25%;
 `;
 
 const MetaHeader = styled.h4<{ color: string; font: SerializedStyles }>`
@@ -139,18 +152,38 @@ const GalleryModal: FC<Props> = props => {
           loader={<ImagePlaceholder height="80vh" />}
         />
         <MetaContainer background={background}>
-          <MetaHeader color={headline} font={caption}>
-            Keywords
-          </MetaHeader>
-          <MetaItems>
-            {selectedMetaItems?.map(meta => (
-              <KeywordButton
-                key={`gallery-modal-${selectedItem}-keyword-button-${meta}`}
-                item={meta}
-                onClick={item => onMetaClick(item)}
+          <MetaContent>
+            <MetaHeader color={headline} font={caption}>
+              Keywords
+            </MetaHeader>
+            <MetaItems>
+              {selectedMetaItems?.map(meta => (
+                <KeywordButton
+                  key={`gallery-modal-${selectedItem}-keyword-button-${meta}`}
+                  item={meta}
+                  onClick={item => onMetaClick(item)}
+                />
+              ))}
+            </MetaItems>
+          </MetaContent>
+          <Buttons>
+            <a
+              href={`${process.env.PUBLIC_URL}/gallery/${selectedItem?.replace(
+                ".jpg",
+                "@3x.jpg"
+              )}`}
+              download
+            >
+              <FontAwesomeIcon
+                icon={faSave}
+                style={{
+                  color: secondary,
+                  height: "2.5em",
+                  width: "2.5em"
+                }}
               />
-            ))}
-          </MetaItems>
+            </a>
+          </Buttons>
         </MetaContainer>
       </ContentContainer>
     </Container>
