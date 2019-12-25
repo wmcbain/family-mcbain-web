@@ -39,6 +39,7 @@ const ContentContainer = styled.div`
 const ModalImage = styled(Img)<{ background: string }>`
   background-color: ${({ background }) => background};
   height: 80vh;
+  max-width: 95vw;
   width: auto;
   object-fit: contain;
 
